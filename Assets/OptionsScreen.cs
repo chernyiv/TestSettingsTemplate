@@ -25,6 +25,28 @@ public class OptionsScreen : MonoBehaviour
         {
             vSyncTog.isOn = true;
         }
+
+        bool foundRes = false;
+        for(int i = 0; i < resolutions.Count; i++)
+        {
+            if(Screen.width == resolutions[i].horizontal && Screen.height == resolutions[i].vertical)
+            {
+                foundRes = true;
+                selectedResolution = i;
+                UpdateResolution();
+            }
+        }
+
+        if(!foundRes)
+        {
+            ResolutionItem newResolution = new ResolutionItem();
+            newResolution.horizontal = Screen.width;
+            newResolution.vertical = Screen.height;
+
+            resolutions.Add(newResolution);
+            selectedResolution = resolutions.Count - 1;
+            UpdateResolution();
+        }
     }
 
     // Update is called once per frame
