@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject optionsScreen;
+    [SerializeField]
+    private GameObject optionsScreen;
 
     public void StartScene()
     {
