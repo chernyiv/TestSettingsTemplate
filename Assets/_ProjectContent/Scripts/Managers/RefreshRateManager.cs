@@ -52,7 +52,7 @@ public class RefreshRateManager : MonoBehaviour
 
     public void UpdateRefreshRate(int index)
     {
-        currentRefreshRateIndex = index;
+        currentRefreshRateIndex = refreshRateDropdown.value;
         refreshRateDropdown.RefreshShownValue();
         RefreshRateData.refreshRate = refreshRatesList[currentRefreshRateIndex];
     }
