@@ -14,8 +14,13 @@ public class RefreshRateManager : MonoBehaviour
 
     void Start()
     {
+        UpdateRefreshRateList();
+    }
+
+    public void UpdateRefreshRateList()
+    {
         resolutions = Screen.resolutions;
-        refreshRateDropdown.ClearOptions(); 
+        refreshRateDropdown.ClearOptions();
 
         refreshRatesList = new List<RefreshRate>();
 
@@ -33,7 +38,15 @@ public class RefreshRateManager : MonoBehaviour
 
         for (int i = 0; i < refreshRatesList.Count; i++)
         {
-            string refreshRateOption = refreshRatesList[i].ToString();
+            string trimmedRefreshRate = ((int)refreshRatesList[i].value).ToString();
+
+            if(dropdownOptions.Contains(trimmedRefreshRate))
+            {
+                continue;
+            }
+
+            // TODO: RefreshRateOptions are trimmed, but indices do not change
+            string refreshRateOption = trimmedRefreshRate;
             dropdownOptions.Add(refreshRateOption);
             if (refreshRatesList[i].Equals(Screen.currentResolution.refreshRateRatio))
             {

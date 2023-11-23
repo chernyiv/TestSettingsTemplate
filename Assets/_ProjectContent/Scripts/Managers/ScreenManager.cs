@@ -19,12 +19,13 @@ public class ScreenManager : MonoBehaviour
     void Start()
     {
         fullScreenTog.isOn = Screen.fullScreen;
+
         UpdateResolutionList(Screen.currentResolution.refreshRateRatio);
         fullScreenTog.onValueChanged.AddListener(UpdateFullscreen);
     }
 
     public void UpdateResolutionList(RefreshRate currentRefreshRate)
-    {
+    {   
         resolutions = Screen.resolutions;
         filteredResolutions = new List<Resolution>();
         resolutionDropdown.ClearOptions();
@@ -57,6 +58,11 @@ public class ScreenManager : MonoBehaviour
         resolutionDropdown.onValueChanged.AddListener(UpdateResolution);
     }
 
+    public void SwitchDisplay()
+    {
+
+    }
+
     public void UpdateResolution(int value)
     {
         currentResolutionIndex = value;
@@ -65,7 +71,8 @@ public class ScreenManager : MonoBehaviour
     }
 
     public void UpdateFullscreen(bool isTogOn)
-    {   
+    {
         ScreenData.fullScreenMode = isTogOn ? FullScreenMode.ExclusiveFullScreen : FullScreenMode.Windowed;
+        GetComponent<RefreshRateManager>().UpdateRefreshRateList();
     }
 }
