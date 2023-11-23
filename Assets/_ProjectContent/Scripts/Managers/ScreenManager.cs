@@ -17,17 +17,20 @@ public class ScreenManager : MonoBehaviour
     private Resolution[] resolutions;
     private List<Resolution> filteredResolutions;
 
-    private RefreshRate currentRefreshRate;
     private int currentResolutionIndex;
 
     void Start()
     {
         fullScreenTog.isOn = Screen.fullScreen;
+        UpdateResolutionList(Screen.currentResolution.refreshRateRatio);
+        fullScreenTog.onValueChanged.AddListener(UpdateFullscreen);
+    }
 
+    public void UpdateResolutionList(RefreshRate currentRefreshRate)
+    {
         resolutions = Screen.resolutions;
         filteredResolutions = new List<Resolution>();
         resolutionDropdown.ClearOptions();
-        currentRefreshRate = Screen.currentResolution.refreshRateRatio;
 
         for (int i = 0; i < resolutions.Length; i++)
         {
@@ -53,17 +56,19 @@ public class ScreenManager : MonoBehaviour
         resolutionDropdown.AddOptions(dropdownOptions);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
+
+        resolutionDropdown.onValueChanged.AddListener(UpdateResolution);
     }
 
-    public void UpdateResolution()
+    public void UpdateResolution(int value)
     {
-        currentResolutionIndex = resolutionDropdown.value;
+        currentResolutionIndex = value;
         resolutionDropdown.RefreshShownValue();
         ScreenData.resolution = filteredResolutions[currentResolutionIndex];
     }
 
-    public void UpdateFullscreen()
-    {
-        ScreenData.isFullScreen = fullScreenTog.isOn;
+    public void UpdateFullscreen(bool isTogOn)
+    {   
+        ScreenData.fullScreenMode = isTogOn ? FullScreenMode.ExclusiveFullScreen : FullScreenMode.Windowed;
     }
 }

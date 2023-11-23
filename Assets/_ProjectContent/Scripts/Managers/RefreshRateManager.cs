@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class RefreshRateManager : MonoBehaviour
 {
@@ -55,5 +54,6 @@ public class RefreshRateManager : MonoBehaviour
         currentRefreshRateIndex = refreshRateDropdown.value;
         refreshRateDropdown.RefreshShownValue();
         RefreshRateData.refreshRate = refreshRatesList[currentRefreshRateIndex];
+        GetComponent<ScreenManager>().UpdateResolutionList(RefreshRateData.refreshRate);
     }
 }
