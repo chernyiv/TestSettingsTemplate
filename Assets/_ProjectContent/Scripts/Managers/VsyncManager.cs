@@ -9,18 +9,11 @@ public class VsyncManager : MonoBehaviour
     void Start()
     {
         vSyncTog.isOn = QualitySettings.vSyncCount != 0;
+        vSyncTog.onValueChanged.AddListener(UpdateVsync);
     }
 
-    public void UpdateVsync()
+    public void UpdateVsync(bool isTogOn)
     {
-        if (vSyncTog.isOn)
-        {
-            VsyncData.vSyncCount = 1;
-        }
-        else
-        {
-            VsyncData.vSyncCount = 0;
-        }
+        VsyncData.vSyncCount = isTogOn ? 1 : 0;
     }
-
 }

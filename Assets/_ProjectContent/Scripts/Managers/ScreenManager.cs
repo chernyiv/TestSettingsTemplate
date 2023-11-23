@@ -11,9 +11,6 @@ public class ScreenManager : MonoBehaviour
     [SerializeField]
     private TMP_Dropdown resolutionDropdown;
 
-    [SerializeField]
-    private TMP_Dropdown refreshRateDropdown;
-
     private Resolution[] resolutions;
     private List<Resolution> filteredResolutions;
 
