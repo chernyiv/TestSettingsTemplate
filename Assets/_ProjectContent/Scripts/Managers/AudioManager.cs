@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -27,7 +28,7 @@ public class AudioManager : MonoBehaviour
     private Slider sfxSlider;
 
     private void Start()
-    {
+    {   
         string[] volumeKeys = { "MasterVol", "MusicVol", "SFXVol" };
 
         foreach(string key in volumeKeys)
@@ -53,35 +54,49 @@ public class AudioManager : MonoBehaviour
             }
         }
 
-        masterSoundLabel.text = (masterSlider.value + 80).ToString();
-        musicSoundLabel.text = (musicSlider.value + 80).ToString();
-        sfxSoundLabel.text = (sfxSlider.value + 80).ToString();
+        masterSoundLabel.text = SoundValueToString(masterSlider.value);
+        musicSoundLabel.text = SoundValueToString(musicSlider.value);
+        sfxSoundLabel.text = SoundValueToString(sfxSlider.value);
+
+        masterSlider.onValueChanged.AddListener(SetMasterVolume);
+        musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        sfxSlider.onValueChanged.AddListener(SetSFXVolume);
     }
 
-    public void SetMasterVolume() 
+    public void SetMasterVolume(float value) 
     {
-        masterSoundLabel.text = (masterSlider.value + 80).ToString();
+        masterSoundLabel.text = SoundValueToString(value);
 
-        mixer.SetFloat("MasterVol", masterSlider.value);
+        mixer.SetFloat("MasterVol", LogarithmAudioValue(value));
 
-        PlayerPrefs.SetFloat("MasterVol", masterSlider.value);
+        PlayerPrefs.SetFloat("MasterVol", value); 
     }
 
-    public void SetMusicVolume()
+    public void SetMusicVolume(float value)
     {
-        musicSoundLabel.text = (musicSlider.value + 80).ToString();
+        musicSoundLabel.text = SoundValueToString(value);
 
-        mixer.SetFloat("MusicVol", musicSlider.value);
+        mixer.SetFloat("MusicVol", LogarithmAudioValue(value));
 
-        PlayerPrefs.SetFloat("MusicVol", musicSlider.value);
+        PlayerPrefs.SetFloat("MusicVol", value);
     }
 
-    public void SetSFXVolume()
+    public void SetSFXVolume(float value)
     {
-        sfxSoundLabel.text = (sfxSlider.value + 80).ToString();
+        sfxSoundLabel.text = SoundValueToString(value);
 
-        mixer.SetFloat("SFXVol", sfxSlider.value);
+        mixer.SetFloat("SFXVol", LogarithmAudioValue(value));
 
-        PlayerPrefs.SetFloat("SFXVol", sfxSlider.value);
+        PlayerPrefs.SetFloat("SFXVol", value);
+    }
+
+    private float LogarithmAudioValue(float value)
+    {
+        return Mathf.Log10(value) * 20;
+    }
+    
+    private string SoundValueToString(float value)
+    {
+        return Mathf.Ceil(value * 100).ToString();
     }
 }
